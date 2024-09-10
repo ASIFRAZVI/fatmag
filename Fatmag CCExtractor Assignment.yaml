@@ -1,0 +1,266 @@
+openapi: 3.0.3
+info:
+  title: Fatmag CCExtractor Assignment
+  version: 0.0.0
+  description: This application Developed using DRF and PostgreSQL,
+paths:
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+        - in: query
+          name: format
+          schema:
+            type: string
+            enum:
+              - json
+              - yaml
+        - in: query
+          name: lang
+          schema:
+            type: string
+            enum:
+              - af
+              - ar
+              - ar-dz
+              - ast
+              - az
+              - be
+              - bg
+              - bn
+              - br
+              - bs
+              - ca
+              - ckb
+              - cs
+              - cy
+              - da
+              - de
+              - dsb
+              - el
+              - en
+              - en-au
+              - en-gb
+              - eo
+              - es
+              - es-ar
+              - es-co
+              - es-mx
+              - es-ni
+              - es-ve
+              - et
+              - eu
+              - fa
+              - fi
+              - fr
+              - fy
+              - ga
+              - gd
+              - gl
+              - he
+              - hi
+              - hr
+              - hsb
+              - hu
+              - hy
+              - ia
+              - id
+              - ig
+              - io
+              - is
+              - it
+              - ja
+              - ka
+              - kab
+              - kk
+              - km
+              - kn
+              - ko
+              - ky
+              - lb
+              - lt
+              - lv
+              - mk
+              - ml
+              - mn
+              - mr
+              - ms
+              - my
+              - nb
+              - ne
+              - nl
+              - nn
+              - os
+              - pa
+              - pl
+              - pt
+              - pt-br
+              - ro
+              - ru
+              - sk
+              - sl
+              - sq
+              - sr
+              - sr-latn
+              - sv
+              - sw
+              - ta
+              - te
+              - tg
+              - th
+              - tk
+              - tr
+              - tt
+              - udm
+              - ug
+              - uk
+              - ur
+              - uz
+              - vi
+              - zh-hans
+              - zh-hant
+      tags:
+        - api
+      security:
+        - cookieAuth: []
+        - basicAuth: []
+        - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/video/:
+    get:
+      operationId: api_video_retrieve
+      description: |-
+        this method returns all video and its associated subtitles
+        if the PK or ID not provided or None, If pk or ID provided then
+        it will return particular video and its associated subtitles
+      tags:
+        - api
+      security:
+        - cookieAuth: []
+        - basicAuth: []
+        - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: api_video_create
+      description: |-
+        function to add or create video it requires title,
+        description and video-file and in background it will
+        automatically process the subtitle and creates
+        subtitle object and subtitle.srt file
+      tags:
+        - api
+      security:
+        - cookieAuth: []
+        - basicAuth: []
+        - {}
+      responses:
+        '200':
+          description: No response body
+  /api/video/{id}/:
+    get:
+      operationId: api_video_retrieve_2
+      description: |-
+        this method returns all video and its associated subtitles
+        if the PK or ID not provided or None, If pk or ID provided then
+        it will return particular video and its associated subtitles
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+      tags:
+        - api
+      security:
+        - cookieAuth: []
+        - basicAuth: []
+        - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: api_video_create_2
+      description: |-
+        function to add or create video it requires title,
+        description and video-file and in background it will
+        automatically process the subtitle and creates
+        subtitle object and subtitle.srt file
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+      tags:
+        - api
+      security:
+        - cookieAuth: []
+        - basicAuth: []
+        - {}
+      responses:
+        '200':
+          description: No response body
+  /api/video/{id}/search/{timestamp_query}/:
+    get:
+      operationId: api_video_search_retrieve
+      description: |-
+        this method reponsible for searching subtitles based on particular
+        video and timestamp note- timestamp must be in the formate of 00:00:00
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+        - in: path
+          name: timestamp_query
+          schema:
+            type: string
+          required: true
+      tags:
+        - api
+      security:
+        - cookieAuth: []
+        - basicAuth: []
+        - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

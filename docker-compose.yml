@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # 1. Django service
+  web:
+    build:
+      context: .
+    ports:
+      - '8000:8000'
+    command: ['cmd', '/c', 'docker_start.bat']
+    volumes:
+      - .:/fatmag
+    env_file:
+      - .env
+    depends_on:
+      - postgres_db
+
+  # 2. DB service
+  postgres_db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DEV_DB_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+# volumes is postgres_data
+volumes:
+  postgres_data:
